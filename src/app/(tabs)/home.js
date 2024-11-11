@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useLoginStore } from '../stores/useLoginStore';
-import Header from '../components/Header';
-import CardCompany from '../components/CardCompany';
+import { useLoginStore } from '../../stores/useLoginStore';
+import Header from '../../components/Header';
+import CardCompany from '../../components/CardCompany';
 
 export default function Home() {
     const { logout } = useLoginStore();
