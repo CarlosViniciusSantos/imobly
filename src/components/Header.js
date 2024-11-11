@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from 'expo-router';
 
 export default function Header() {
+    const router = useRouter();
+
+    const handleSearchPress = () => {
+        router.push('/searchCompany');
+    };
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.searchContainer}>
                 <Image source={require('../../assets/images/imobly-branca1.png')} style={styles.logo} />
-                <View style={styles.searchBox}>
+                <TouchableOpacity style={styles.searchBox} onPress={handleSearchPress}>
                     <Feather name="search" size={24} color="black" />
                     <TextInput
                         style={styles.searchInput}
                         placeholder="Pesquisar Empresa"
                         placeholderTextColor="#666"
+                        editable={false}
                     />
-                </View>
+                </TouchableOpacity>
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
@@ -80,5 +88,9 @@ const styles = StyleSheet.create({
     categoryText: {
         fontSize: 14,
         color: '#000',
+    },
+    cardContainer: {
+        marginTop: 20,
+        paddingHorizontal: 10,
     },
 });

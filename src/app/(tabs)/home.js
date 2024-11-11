@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../../stores/useLoginStore';
 import Header from '../../components/Header';
-import CardCompany from '../../components/CardCompany';
+import CardProperty from '../../components/CardProperty';
 
 export default function Home() {
     const { logout } = useLoginStore();
@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <ScrollView style={styles.container}>
             <Header />
-            <CardCompany />
+            <CardProperty />
         </ScrollView>
     );
 }

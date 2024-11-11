@@ -41,7 +41,7 @@ export default function Profile() {
   return (
       <View style={styles.container}>
         <Image
-            source={avatar}
+            source={require('../../../assets/images/logo-imobly.png')}
             style={styles.avatar}
         />
         <Text style={styles.name}>{name}</Text>
