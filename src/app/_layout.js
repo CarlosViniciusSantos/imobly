@@ -18,6 +18,7 @@ export default function RootLayout() {
       <Stack.Screen name="cadastro" options={{headerShown: false}}/>
       <Stack.Screen name="enviarProposta" options={{headerShown: false}}/>
       <Stack.Screen name="detailsProperty" options={{headerShown: false}}/>
+      <Stack.Screen name="comments" options={{headerShown: false}}/>
     </Stack>
   );
 }

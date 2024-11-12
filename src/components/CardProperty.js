@@ -12,6 +12,10 @@ export default function CardProperty() {
         router.push('/detailsProperty');
     };
 
+    const handleComments = () => {
+        router.push('/comments');
+    };
+
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
@@ -25,53 +29,11 @@ export default function CardProperty() {
                 <Image source={require('../../assets/images/imovel1.png')} style={styles.propertyImage} />
 
                 <View style={styles.cardFooter}>
-                    <TouchableOpacity style={styles.commentButton}>
+                    <TouchableOpacity style={styles.commentButton} onPress={handleComments}>
                         <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
                         <Text style={styles.commentText}>Comentários</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.viewButton} onPress={handleSearchPress}>
-                        <Text style={styles.viewText}>Visualizar</Text>
-                        <Feather name="arrow-right-circle" size={24} color="black" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.companyCard}>
-                <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
-                    <Text style={styles.companyName}>Maré</Text>
-                </View>
-                <Text style={styles.companyDescription}>
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Text>
-                <Image source={require('../../assets/images/imovel1.png')} style={styles.propertyImage} />
-
-                <View style={styles.cardFooter}>
-                    <TouchableOpacity style={styles.commentButton}>
-                        <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
-                        <Text style={styles.commentText}>Comentários</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.viewButton}>
-                        <Text style={styles.viewText}>Visualizar</Text>
-                        <Feather name="arrow-right-circle" size={24} color="black" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.companyCard}>
-                <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
-                    <Text style={styles.companyName}>Maré</Text>
-                </View>
-                <Text style={styles.companyDescription}>
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Text>
-                <Image source={require('../../assets/images/imovel1.png')} style={styles.propertyImage} />
-
-                <View style={styles.cardFooter}>
-                    <TouchableOpacity style={styles.commentButton}>
-                        <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
-                        <Text style={styles.commentText}>Comentários</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.viewButton}>
                         <Text style={styles.viewText}>Visualizar</Text>
                         <Feather name="arrow-right-circle" size={24} color="black" />
                     </TouchableOpacity>

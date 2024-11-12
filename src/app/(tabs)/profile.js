@@ -1,51 +1,93 @@
-import React from 'react';
-import { View, StyleSheet, Text, Alert, TouchableOpacity } from 'react-native';
-import { Image } from 'expo-image';
-import Button from '../../components/Button';
-import { useLoginStore } from '../../stores/useLoginStore';
-import { useRouter } from 'expo-router';
-import { deleteObjectData } from '../../utils/asyncStorage';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+import { TextInputMask } from 'react-native-masked-text';
+import Button from '../../components/ButtonDetails';
+import NavbarPadrao from '../../components/NavbarPadrao.js'
 
-export default function Profile() {
-    const { avatar, name, email } = useLoginStore();
-    const { logout: logoutStore, accessToken } = useLoginStore();
-    const router = useRouter();
-
-    const handleLogout = async () => {
-        const logout = { accessToken };
-
-        const response = await fetch('http://localhost:3000/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(logout),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            logoutStore();
-            await deleteObjectData('userLogged');
-            router.replace('/login');
-        } else {
-            const data = await response.json();
-            Alert.alert('Erro ao logar');
-            console.log(data?.error);
-        }
-    };
-
-    const handleEditProfile = () => {
-        router.push('/editProfile');
-    };
+export default function AtualizarDadosUser() {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../../../assets/images/imobly-azul.png')} style={styles.avatar} />
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.email}>{email}</Text>
-            <Button onPress={handleEditProfile}>Editar Perfil</Button>
-            <Button onPress={handleLogout}>Logout</Button>
+            <NavbarPadrao texto="Editar dados"/>
+            <ScrollView style={styles.container2}>
+                <View style={styles.image}>
+                    <TouchableOpacity >
+                        <Image
+                            source={require('../../../assets/images/nophoto.jpg')}
+                            style={styles.perfilImage}
+                        />
+                        <Text>
+                            <Feather name="edit-2" size={23} color="black" />
+                            Editar
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.headerContainer}></View>
+
+                <View style={styles.formContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nome"
+                        value=''
+                        onChangeText=''
+                    />
+                    <View style={styles.row}>
+                        <TextInputMask
+                            type={'cpf'}
+                            style={[styles.input, styles.cidadeEstado]}
+                            placeholder="CPF"
+                            value=''
+                            onChangeText=''
+                        />
+                        <TextInputMask
+                            type={'datetime'}
+                            options={{ format: 'DD/MM/YYYY' }}
+                            style={styles.input}
+                            placeholder="Data de Nascimento"
+                            value=''
+                            onChangeText=''
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        value=''
+                        onChangeText=''
+                    />
+
+                    <View style={styles.row}>
+                        <TextInput
+                            style={[styles.input, styles.cidadeEstado]}
+                            placeholder="Cidade"
+                            value=''
+                            onChangeText=''
+                        />
+                        <TextInput
+                            style={[styles.input, styles.cidadeEstado]}
+                            placeholder="Estado"
+                            value=''
+                            onChangeText=''
+                        />
+                    </View>
+
+                    <TextInputMask
+                        type={'cel-phone'}
+                        options={{
+                            maskType: 'BRL',
+                            withDDD: true,
+                            dddMask: '(99) '
+                        }}
+                        style={styles.input}
+                        placeholder="Telefone"
+                        value=''
+                        onChangeText=''
+                        keyboardType='numeric'
+                    />
+
+                </View>
+            </ScrollView>
+            <Button>Confirmar</Button>
         </View>
     );
 }
@@ -53,24 +95,44 @@ export default function Profile() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: '#fff',
+        position: 'relative'
+    },
+    container2: {
+        flex: 1,
         padding: 20,
+        marginTop:30,
+        position: 'relative'
     },
-    avatar: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        marginBottom: 20,
+    headerContainer: {
+        marginBottom: 30,
     },
-    name: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
+    formContainer: {
+        flex: 1,
+        justifyContent: 'space-between'
     },
-    email: {
-        fontSize: 18,
-        color: 'gray',
-        marginBottom: 20,
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
+    input: {
+        height: 40,
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginBottom: 15,
+        paddingHorizontal: 10,
+    },
+    cidadeEstado: {
+        width: '48%',
+    },
+    perfilImage: {
+        width: 80,
+        height: 80,
+        borderRadius: 40
+    },
+    image: {
+        alignItems: 'center'
+    }
 });

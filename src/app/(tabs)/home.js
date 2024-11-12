@@ -18,6 +18,8 @@ export default function Home() {
         <ScrollView style={styles.container}>
             <Header />
             <CardProperty />
+            <CardProperty />
+            <CardProperty />
         </ScrollView>
     );
 }
