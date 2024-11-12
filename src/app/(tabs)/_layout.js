@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Tabs } from 'expo-router';
 
+
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: '#1E3A8A' , headerShown: false}}>
@@ -23,6 +24,12 @@ export default function TabLayout() {
         options={{
           title: 'Perfil',
           tabBarIcon: ({ color }) => <Feather name="menu" size={24} color={ color } />,
+        }}
+      />
+      <Tabs.Screen
+        name="searchCompany"
+        options={{
+          tabBarButton: () => null,
         }}
       />
     </Tabs>

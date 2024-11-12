@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import Header from '../components/Header';
-import CardCompany from '../components/CardCompany';
+import Header from '../../components/Header';
+import CardCompany from '../../components/CardCompany';
 
 export default function SearchCompany() {
 
