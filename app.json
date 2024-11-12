@@ -4,11 +4,11 @@
     "slug": "imobly",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-imobly.png",
+    "icon": "./assets/images/imobly-azul.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/logo-imobly.png",
+      "image": "./assets/images/imobly-azul.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,14 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo-imobly.png",
+        "foregroundImage": "./assets/images/imobly-azul.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logo-imobly.png"
+      "favicon": "./assets/images/imobly-azul.png"
     },
     "plugins": [
       "expo-router"

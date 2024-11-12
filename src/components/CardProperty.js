@@ -16,7 +16,7 @@ export default function CardProperty() {
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
                 <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/logo-imobly.png')} style={styles.logo} />
+                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
                     <Text style={styles.companyName}>Maré</Text>
                 </View>
                 <Text style={styles.companyDescription}>
@@ -37,7 +37,7 @@ export default function CardProperty() {
             </View>
             <View style={styles.companyCard}>
                 <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/logo-imobly.png')} style={styles.logo} />
+                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
                     <Text style={styles.companyName}>Maré</Text>
                 </View>
                 <Text style={styles.companyDescription}>
@@ -58,7 +58,7 @@ export default function CardProperty() {
             </View>
             <View style={styles.companyCard}>
                 <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/logo-imobly.png')} style={styles.logo} />
+                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
                     <Text style={styles.companyName}>Maré</Text>
                 </View>
                 <Text style={styles.companyDescription}>
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#1E3A8A',
+        margin: 5
     },
     companyDescription: {
         fontSize: 14,

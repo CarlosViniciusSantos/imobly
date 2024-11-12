@@ -13,7 +13,7 @@ export default function Header() {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.searchContainer}>
-                <Image source={require('../../assets/images/imobly-branca1.png')} style={styles.logo} />
+                <Image source={require('../../assets/images/imobly-branca.png')} style={styles.logo} />
                 <TouchableOpacity style={styles.searchBox} onPress={handleSearchPress}>
                     <Feather name="search" size={24} color="black" />
                     <TextInput

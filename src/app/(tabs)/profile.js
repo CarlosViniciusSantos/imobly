@@ -41,7 +41,7 @@ export default function Profile() {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../../../assets/images/logo-imobly.png')} style={styles.avatar} />
+            <Image source={require('../../../assets/images/imobly-azul.png')} style={styles.avatar} />
             <Text style={styles.name}>{name}</Text>
             <Text style={styles.email}>{email}</Text>
             <Button onPress={handleEditProfile}>Editar Perfil</Button>

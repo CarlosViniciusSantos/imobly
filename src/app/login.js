@@ -20,7 +20,7 @@ export default function Login() {
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
-                <Image source={require('../../assets/images/logo-imobly.png')} style={styles.logo} />
+                <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
                 <Text style={styles.title}>Imobly</Text>
             </View>
 
@@ -74,8 +74,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     logo: {
-        width: 100,
-        height: 150,
+        width: 60,
+        height: 60,
+        margin: 3
     },
     title: {
         fontSize: 20,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
@@ -26,10 +26,6 @@ export default function Cadastro() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.logoContainer}>
-                <Image source={require('../../assets/images/logo-imobly.png')} style={styles.logo} />
-                <Text style={styles.title}>Imobly</Text>
-            </View>
 
             <View style={styles.loginBox}>
                 <View style={styles.loginTitleContainer}>
@@ -129,30 +125,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 20,
     },
-    logoContainer: {
-        alignItems: 'center',
-        marginBottom: 80,
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    logo: {
-        width: 100,
-        height: 150,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#1E3A8A',
-    },
     loginBox: {
         width: '100%',
         paddingVertical: 50,
         paddingHorizontal: 30,
         backgroundColor: '#f2f2f2',
         borderRadius: 10,
-        padding: 20,
         alignItems: 'center',
         position: 'relative', // Permite que o título "Login" seja posicionado dentro da caixa
+        marginTop: 100
     },
     loginTitleContainer: {
         position: 'absolute', // Faz o título flutuar sobre a caixa
