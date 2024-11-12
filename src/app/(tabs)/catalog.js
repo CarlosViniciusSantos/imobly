@@ -1,21 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
+import NavbarCatalog from '../../components/NavbarCatalog';
+import CardCatalog from '../../components/CardCatalog';
 
-export default function Search() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Search Screen</Text>
-    </View>
-  );
+export default function SearchCompany() {
+
+    return (
+        <ScrollView style={styles.container}>
+            <NavbarCatalog />
+            <CardCatalog />
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#ECECEC',
+    }
 });

@@ -1,19 +1,27 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { useRouter } from 'expo-router';
 
-export default function CardCompany() {
+export default function CardCatalog() {
+
+    const router = useRouter();
+
+    const handleSearchPress = () => {
+        router.push('/detailsProperty');
+    };
+
     return (
-        <View style={styles.companiesContainer}>
-            <View style={styles.companyCard}>
-                <Image source={require('../../assets/images/empresa1.png')} style={styles.logo} />
-                
-                <View style={styles.companyInfo}>
-                    <Text style={styles.companyName}>Empresa Bastos</Text>
-                    <Text style={styles.companyDescription}>
-                        Descrição da empresa
+        <View style={styles.catalogContainer}>
+            <View style={styles.catalogCard}>
+                <Image source={require('../../assets/images/imovel1.png')} style={styles.logo} />
+
+                <View style={styles.catalogInfo}>
+                    <Text style={styles.catalogName}>Nome do Imovel</Text>
+                    <Text style={styles.catalogDescription}>
+                        Descrição do Imóvel
                     </Text>
-                    <TouchableOpacity>
-                        <Text style={styles.linkText}>Clique aqui para ver os Imóveis</Text>
+                    <TouchableOpacity onPress={handleSearchPress}>
+                        <Text style={styles.linkText}>Clique aqui para ver os Detalhes</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -22,10 +30,10 @@ export default function CardCompany() {
 }
 
 const styles = StyleSheet.create({
-    companiesContainer: {
+    catalogContainer: {
         paddingHorizontal: 10,
     },
-    companyCard: {
+    catalogCard: {
         flexDirection: 'row',
         backgroundColor: '#fff',
         borderRadius: 10,
@@ -44,16 +52,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginRight: 10,
     },
-    companyInfo: {
+    catalogInfo: {
         flex: 1,
     },
-    companyName: {
+    catalogName: {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#000',
         marginBottom: 5,
     },
-    companyDescription: {
+    catalogDescription: {
         fontSize: 14,
         color: '#666',
         marginBottom: 5,

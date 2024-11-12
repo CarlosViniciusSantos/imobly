@@ -1,9 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from 'expo-router';
 
 export default function CardProperty() {
+
+    const router = useRouter();
+
+    const handleSearchPress = () => {
+        router.push('/detailsProperty');
+    };
+
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
@@ -21,7 +29,7 @@ export default function CardProperty() {
                         <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
                         <Text style={styles.commentText}>Comentários</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.viewButton}>
+                    <TouchableOpacity style={styles.viewButton} onPress={handleSearchPress}>
                         <Text style={styles.viewText}>Visualizar</Text>
                         <Feather name="arrow-right-circle" size={24} color="black" />
                     </TouchableOpacity>
@@ -73,7 +81,7 @@ export default function CardProperty() {
     );
 }
 
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({
     logo: {
         width: 50,
         height: 50,
