@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
+import { storeObjectData } from '../utils/asyncStorage';
 
 export default function Cadastro() {
     const [name, setName] = useState('');
@@ -17,21 +18,54 @@ export default function Cadastro() {
     const { login } = useLoginStore();
     const router = useRouter();
 
-    const handleRegister = () => {
-        // Simulação de registro
-        const user = { email, name, accessToken: 'dummy-token' };
-        login(user);
-        router.replace('/home');
+    const handleRegister = async () => {
+        if (password !== confirmPassword) {
+            Alert.alert('Erro', 'As senhas não coincidem');
+            return;
+        }
+
+        const userData = {
+            nome: name,
+            cpf,
+            telefone,
+            cidade,
+            estado,
+            email,
+            senha: password,
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                login({ accessToken: data.token, ...data.usuario });
+                await storeObjectData('userLogged', { accessToken: data.token, ...data.usuario });
+                router.replace('/home');
+            } else {
+                const data = await response.json();
+                Alert.alert('Erro ao cadastrar', data.error || 'Erro desconhecido');
+                console.log(data.error);
+            }
+        } catch (error) {
+            Alert.alert('Erro ao cadastrar', 'Erro de rede ou servidor');
+            console.error('Erro ao cadastrar:', error);
+        }
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-
             <View style={styles.loginBox}>
                 <View style={styles.loginTitleContainer}>
                     <Text style={styles.loginTitle}>Cadastre-se</Text>
                 </View>
-
                 <View style={styles.formGroup}>
                     <TextInput
                         style={[styles.input, styles.nome]}
@@ -40,7 +74,6 @@ export default function Cadastro() {
                         onChangeText={setName}
                     />
                 </View>
-
                 <View style={styles.formGroup}>
                     <TextInput
                         style={styles.input}
@@ -101,19 +134,17 @@ export default function Cadastro() {
                         secureTextEntry
                     />
                 </View>
-            </View>
-
-            <Button onPress={handleRegister}>Cadastrar</Button>
-
-            <Text style={styles.signupText}>
-                Já tem uma conta?{' '}
-                <Text
-                    style={styles.signupLink}
-                    onPress={() => router.push('/login')}
-                >
-                    Entre aqui
+                <Button onPress={handleRegister}>Cadastrar</Button>
+                <Text style={styles.signupText}>
+                    Já tem uma conta?{' '}
+                    <Text
+                        style={styles.signupLink}
+                        onPress={() => router.push('/login')}
+                    >
+                        Entre aqui
+                    </Text>
                 </Text>
-            </Text>
+            </View>
         </ScrollView>
     );
 }
@@ -132,12 +163,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2',
         borderRadius: 10,
         alignItems: 'center',
-        position: 'relative', // Permite que o título "Login" seja posicionado dentro da caixa
-        marginTop: 100
+        position: 'relative',
+        marginTop: 100,
     },
     loginTitleContainer: {
-        position: 'absolute', // Faz o título flutuar sobre a caixa
-        top: -30, // Posiciona o título acima da caixa
+        position: 'absolute',
+        top: -30,
         backgroundColor: '#00557A',
         paddingVertical: 20,
         paddingHorizontal: 40,

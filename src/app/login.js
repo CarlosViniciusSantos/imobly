@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
+import { storeObjectData } from '../utils/asyncStorage';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -10,11 +11,36 @@ export default function Login() {
     const { login } = useLoginStore();
     const router = useRouter();
 
-    const handleLogin = () => {
-        // Simulação de login
-        const user = { email, name: 'User', accessToken: 'dummy-token' };
-        login(user);
-        router.replace('/home');
+    const handleLogin = async () => {
+        const loginData = {
+            email,
+            senha: password,
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                login({ accessToken: data.token, ...data.usuario });
+                await storeObjectData('userLogged', { accessToken: data.token, ...data.usuario });
+                router.replace('/home');
+            } else {
+                const data = await response.json();
+                Alert.alert('Erro ao logar', data.error || 'Erro desconhecido');
+                console.log(data.error);
+            }
+        } catch (error) {
+            Alert.alert('Erro ao logar', 'Erro de rede ou servidor');
+            console.error('Erro ao logar:', error);
+        }
     };
 
     return (
@@ -127,4 +153,3 @@ const styles = StyleSheet.create({
         color: '#000',
     },
 });
-
