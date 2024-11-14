@@ -19,6 +19,8 @@ export default function AtualizarDadosUser() {
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
     const [telefone, setTelefone] = useState('');
+    const [userId, setUserId] = useState(null);
+    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
         const loadUserData = async () => {
@@ -31,6 +33,8 @@ export default function AtualizarDadosUser() {
                 setCidade(storedUser.cidade);
                 setEstado(storedUser.estado);
                 setTelefone(storedUser.telefone);
+                setUserId(storedUser.id);
+                setAccessToken(storedUser.accessToken);
             }
         };
 
@@ -49,11 +53,11 @@ export default function AtualizarDadosUser() {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/users/${user.id}`, {
+            const response = await fetch(`http://localhost:3000/users/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user.accessToken}`,
+                    'Authorization': `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify(userData),
             });
@@ -78,7 +82,7 @@ export default function AtualizarDadosUser() {
 
     return (
         <View style={styles.container}>
-            <NavbarPadrao texto="Editar dados"/>
+            <NavbarPadrao texto="Editar dados" />
             <ScrollView style={styles.container2}>
                 <View style={styles.image}>
                     <TouchableOpacity>
@@ -102,15 +106,14 @@ export default function AtualizarDadosUser() {
                         value={name}
                         onChangeText={setName}
                     />
-                    <View style={styles.row}>
-                        <TextInputMask
-                            type={'cpf'}
-                            style={[styles.input, styles.cidadeEstado]}
-                            placeholder="CPF"
-                            value={cpf}
-                            onChangeText={setCpf}
-                        />
-                        {/* <TextInputMask
+                    <TextInputMask
+                        type={'cpf'}
+                        style={styles.input}
+                        placeholder="CPF"
+                        value={cpf}
+                        onChangeText={setCpf}
+                    />
+                    {/* <TextInputMask
                             type={'datetime'}
                             options={{ format: 'DD/MM/YYYY' }}
                             style={styles.input}
@@ -118,7 +121,6 @@ export default function AtualizarDadosUser() {
                             value={nascimento}
                             onChangeText={setNascimento}
                         /> */}
-                    </View>
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
