@@ -4,11 +4,11 @@ import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
 import { storeObjectData } from '../utils/asyncStorage';
+import render from '../utils/render';
 
 export default function Cadastro() {
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
-    const [nascimento, setNascimento] = useState('');
     const [email, setEmail] = useState('');
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
@@ -35,7 +35,7 @@ export default function Cadastro() {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch(`${render}users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export default function Cadastro() {
                 console.log(data);
                 login({ accessToken: data.token, ...data.usuario });
                 await storeObjectData('userLogged', { accessToken: data.token, ...data.usuario });
-                router.replace('/home');
+                router.replace('/login');
             } else {
                 const data = await response.json();
                 Alert.alert('Erro ao cadastrar', data.error || 'Erro desconhecido');
@@ -74,20 +74,12 @@ export default function Cadastro() {
                         onChangeText={setName}
                     />
                 </View>
-                <View style={styles.formGroup}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="CPF"
-                        value={cpf}
-                        onChangeText={setCpf}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Data de Nascimento"
-                        value={nascimento}
-                        onChangeText={setNascimento}
-                    />
-                </View>
+                <TextInput
+                    style={[styles.input, styles.nome]}
+                    placeholder="CPF"
+                    value={cpf}
+                    onChangeText={setCpf}
+                />
                 <View style={styles.formGroup}>
                     <TextInput
                         style={[styles.input, styles.nome]}

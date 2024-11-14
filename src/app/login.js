@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
 import { storeObjectData } from '../utils/asyncStorage';
+import render from '../utils/render';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ export default function Login() {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
+            const response = await fetch(`${render}auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

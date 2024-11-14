@@ -11,7 +11,9 @@ export default function RootLayout() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-      }}>
+      }}
+      initialRouteName="login" // Defina aqui a rota inicial desejada
+    >
       <Stack.Screen name="index" options={{headerShown: false}} />
       <Stack.Screen name="(tabs)" options={{headerShown: false}} />
       <Stack.Screen name="login" options={{headerShown: false}}/>
@@ -19,6 +21,7 @@ export default function RootLayout() {
       <Stack.Screen name="enviarProposta" options={{headerShown: false}}/>
       <Stack.Screen name="detailsProperty" options={{headerShown: false}}/>
       <Stack.Screen name="comments" options={{headerShown: false}}/>
+      <Stack.Screen name="profile" options={{headerShown: false}}/>
     </Stack>
   );
 }

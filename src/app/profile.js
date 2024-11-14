@@ -2,25 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import { TextInputMask } from 'react-native-masked-text';
-import Button from '../../components/ButtonDetails';
-import NavbarPadrao from '../../components/NavbarPadrao.js';
+import Button from '../components/ButtonDetails.js';
+import NavbarPadrao from '../components/NavbarPadrao.js';
 import { useRouter } from 'expo-router';
-import { useLoginStore } from '../../stores/useLoginStore';
-import { getObjectData, storeObjectData } from '../../utils/asyncStorage';
+import { useLoginStore } from '../stores/useLoginStore';
+import { getObjectData, storeObjectData } from '../utils/asyncStorage';
+import render from '../utils/render.js';
 
 export default function AtualizarDadosUser() {
-    const { user, login } = useLoginStore();
+    const { id, nome, cpf, telefone, cidade, estado, foto_perfil, email, accessToken, updateUser } = useLoginStore();
     const router = useRouter();
-
-    const [name, setName] = useState('');
-    const [cpf, setCpf] = useState('');
-    // const [nascimento, setNascimento] = useState('');
-    const [email, setEmail] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [estado, setEstado] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [userId, setUserId] = useState(null);
-    const [accessToken, setAccessToken] = useState('');
+    const [name, setName] = useState(nome || '');
+    const [cpfState, setCpf] = useState(cpf || '');
+    const [emailState, setEmail] = useState(email || '');
+    const [cidadeState, setCidade] = useState(cidade || '');
+    const [estadoState, setEstado] = useState(estado || '');
+    const [telefoneState, setTelefone] = useState(telefone || '');
+    const [userId, setUserId] = useState(id || '');
+    const [token, setToken] = useState(accessToken || '');
 
     useEffect(() => {
         const loadUserData = async () => {
@@ -28,45 +27,40 @@ export default function AtualizarDadosUser() {
             if (storedUser) {
                 setName(storedUser.nome);
                 setCpf(storedUser.cpf);
-                // setNascimento(storedUser.nascimento);
                 setEmail(storedUser.email);
                 setCidade(storedUser.cidade);
                 setEstado(storedUser.estado);
                 setTelefone(storedUser.telefone);
                 setUserId(storedUser.id);
-                setAccessToken(storedUser.accessToken);
+                setToken(storedUser.accessToken);
             }
         };
-
         loadUserData();
     }, []);
 
     const handleUpdate = async () => {
         const userData = {
             nome: name,
-            cpf,
-            // nascimento,
-            email,
-            cidade,
-            estado,
-            telefone,
+            cpf: cpfState,
+            email: emailState,
+            cidade: cidadeState,
+            estado: estadoState,
+            telefone: telefoneState,
         };
-
         try {
-            const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            const response = await fetch(`${render}users/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(userData),
             });
-
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                login({ ...user, ...data });
-                await storeObjectData('userLogged', { ...user, ...data });
+                updateUser(data);
+                await storeObjectData('userLogged', { ...data, accessToken: token });
                 Alert.alert('Sucesso', 'Dados atualizados com sucesso');
                 router.replace('/home');
             } else {
@@ -87,7 +81,7 @@ export default function AtualizarDadosUser() {
                 <View style={styles.image}>
                     <TouchableOpacity>
                         <Image
-                            source={require('../../../assets/images/nophoto.jpg')}
+                            source={require('../../assets/images/nophoto.jpg')}
                             style={styles.perfilImage}
                         />
                         <Text>
@@ -110,21 +104,13 @@ export default function AtualizarDadosUser() {
                         type={'cpf'}
                         style={styles.input}
                         placeholder="CPF"
-                        value={cpf}
+                        value={cpfState}
                         onChangeText={setCpf}
                     />
-                    {/* <TextInputMask
-                            type={'datetime'}
-                            options={{ format: 'DD/MM/YYYY' }}
-                            style={styles.input}
-                            placeholder="Data de Nascimento"
-                            value={nascimento}
-                            onChangeText={setNascimento}
-                        /> */}
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
-                        value={email}
+                        value={emailState}
                         onChangeText={setEmail}
                     />
 
@@ -132,13 +118,13 @@ export default function AtualizarDadosUser() {
                         <TextInput
                             style={[styles.input, styles.cidadeEstado]}
                             placeholder="Cidade"
-                            value={cidade}
+                            value={cidadeState}
                             onChangeText={setCidade}
                         />
                         <TextInput
                             style={[styles.input, styles.cidadeEstado]}
                             placeholder="Estado"
-                            value={estado}
+                            value={estadoState}
                             onChangeText={setEstado}
                         />
                     </View>
@@ -152,7 +138,7 @@ export default function AtualizarDadosUser() {
                         }}
                         style={styles.input}
                         placeholder="Telefone"
-                        value={telefone}
+                        value={telefoneState}
                         onChangeText={setTelefone}
                         keyboardType='numeric'
                     />
