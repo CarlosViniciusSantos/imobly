@@ -1,15 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function CardBalloons({ comment }) {
+export default function CardBalloons() {
     return (
         <View style={styles.commentCard}>
             <View style={styles.commentHeader}>
-                <Ionicons name="person-circle" size={40} color="gray" />
-                <Text style={styles.commentAuthor}>User</Text>
+                <View style={styles.row}>
+                    <Ionicons name="person-circle" size={40} color="gray" />
+                    <Text style={styles.commentAuthor}>User</Text>
+                </View>
+                <View style={styles.row2}>
+                    <TouchableOpacity>
+                        <Ionicons name="pencil" size={30} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="trash" size={30} color="black" />
+                    </TouchableOpacity>
+                </View>
             </View>
-            <Text style={styles.commentText}>{comment.text}</Text>
+            <Text style={styles.commentText}>texto</Text>
         </View>
     );
 }
@@ -31,6 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        justifyContent: 'space-between',
     },
     commentAuthor: {
         marginLeft: 10,
@@ -39,5 +50,16 @@ const styles = StyleSheet.create({
     },
     commentText: {
         fontSize: 16,
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    row2: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 40,
     },
 });

@@ -1,41 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NavbarPadrao from '../components/NavbarPadrao';
 import CardBalloons from '../components/CardBalloons';
 
 export default function Comments() {
-    const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState('');
-
-    const handleAddComment = () => {
-        if (newComment.trim()) {
-            setComments([...comments, { id: Date.now().toString(), text: newComment }]);
-            setNewComment('');
-        }
-    };
-
-    const renderComment = ({ item }) => (
-        <CardBalloons comment={item} />
-    );
 
     return (
         <View style={styles.container}>
             <NavbarPadrao texto="Comentários" />
-            <FlatList
-                data={comments}
-                renderItem={renderComment}
-                keyExtractor={item => item.id}
-                style={styles.commentsList}
-            />
+            <View style={styles.container}>
+
+            <CardBalloons/>
+            </View>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder="Escreva um comentário..."
-                    value={newComment}
-                    onChangeText={setNewComment}
+                    value={''}
+                    onChangeText={''}
                 />
-                <TouchableOpacity onPress={handleAddComment} style={styles.button}>
+                <TouchableOpacity style={styles.button}>
                     <Ionicons name="send" size={24} color="white" />
                 </TouchableOpacity>
             </View>
