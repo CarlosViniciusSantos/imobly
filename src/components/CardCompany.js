@@ -1,18 +1,25 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { useRouter } from 'expo-router';
 
-export default function CardCompany() {
+export default function CardCompany({ id, nome, email, foto_empresa }) {
+    const router = useRouter();
+
+    const handlePress = () => {
+        router.push({ pathname: '/propertiesCompanies', params: { id } });
+    };
+
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
-                <Image source={require('../../assets/images/empresa1.png')} style={styles.logo} />
+                <Image source={foto_empresa ? { uri: foto_empresa } : require('../../assets/images/empresa1.png')} style={styles.logo} />
                 
                 <View style={styles.companyInfo}>
-                    <Text style={styles.companyName}>Empresa Bastos</Text>
+                    <Text style={styles.companyName}>{nome}</Text>
                     <Text style={styles.companyDescription}>
-                        Descrição da empresa
+                        {email}
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handlePress}>
                         <Text style={styles.linkText}>Clique aqui para ver os Imóveis</Text>
                     </TouchableOpacity>
                 </View>

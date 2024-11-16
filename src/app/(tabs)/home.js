@@ -1,25 +1,40 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useLoginStore } from '../../stores/useLoginStore';
 import Header from '../../components/Header';
 import CardProperty from '../../components/CardProperty';
+import render from '../../utils/render'
 
 export default function Home() {
-    const { logout } = useLoginStore();
+    const [properties, setProperties] = useState([]);
     const router = useRouter();
 
-    const handleLogout = () => {
-        logout();
-        router.replace('/login');
-    };
+    useEffect(() => {
+        async function fetchProperties() {
+            try {
+                const response = await fetch(`${render}properties/list`);
+                const data = await response.json();
+                setProperties(data);
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+            }
+        }
+
+        fetchProperties();
+    }, []);
 
     return (
         <ScrollView style={styles.container}>
             <Header />
-            <CardProperty />
-            <CardProperty />
-            <CardProperty />
+            {properties.map(property => (
+                <CardProperty 
+                    key={property.id} 
+                    id={property.id}
+                    foto_imovel={property.foto_imovel} 
+                    descricao={property.descricao} 
+                    id_empresa={property.id_empresa}
+                />
+            ))}
         </ScrollView>
     );
 }

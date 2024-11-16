@@ -1,42 +1,61 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
-import ButtonDetails from '../components/ButtonDetails';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import NavbarPadrao from '../components/NavbarPadrao';
+import ButtonDetails from '../components/ButtonDetails';
+import render from '../utils/render';
 
-const DetailsProperty = () => {
-
+export default function DetailsProperty() {
+    const [property, setProperty] = useState(null);
     const router = useRouter();
+    const { id } = useLocalSearchParams();
+
+    useEffect(() => {
+        async function fetchProperty() {
+            try {
+                const response = await fetch(`${render}properties/${id}`);
+                const data = await response.json();
+                setProperty(data);
+            } catch (error) {
+                console.error('Error fetching property data:', error);
+            }
+        }
+
+        fetchProperty();
+    }, [id]);
 
     const handleSearchPress = () => {
         router.push('/enviarProposta');
     };
+
+    if (!property) {
+        return <Text>Loading...</Text>;
+    }
 
     return (
         <View style={styles.container}>
             <NavbarPadrao texto="Detalhes"/>
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <Image
-                    source={require('../../assets/images/imovel1.png')}
+                    source={property.foto_imovel ? { uri: property.foto_imovel } : require('../../assets/images/imovel1.png')}
                     style={styles.image}
                 />
                 <View style={styles.content}>
                     <View style={styles.tagContainer}>
-                        <Text style={styles.tag}>Exclusivo</Text>
+                        <Text style={styles.tag}>{property.nome}</Text>
                     </View>
-                    <Text style={styles.price}>R$ 1.000.000,00 total</Text>
-                    <Text style={styles.rent}>R$ 10.000,00 aluguel</Text>
+                    <Text style={styles.price}>R$ {property.valor}</Text>
                     <View style={styles.separator} />
-                    <Text style={styles.type}>Apartamento</Text>
-                    <Text style={styles.address}>Avenida Exemplo - Exemplo, Exemplo</Text>
-                    <Text style={styles.details}>45m² • 1 quarto • 1 banheiro • 1 vaga</Text>
+                    <Text style={styles.type}>{property.tipo}</Text>
+                    <Text style={styles.address}>{property.cidade} - {property.estado}</Text>
+                    <Text style={styles.details}>{property.descricao}</Text>
                 </View>
             </ScrollView>
 
             <ButtonDetails onPress={handleSearchPress}>Falar com a Empresa</ButtonDetails>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -108,5 +127,3 @@ const styles = StyleSheet.create({
         marginBottom: 10, 
     },
 });
-
-export default DetailsProperty;

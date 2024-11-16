@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 
-export default function CardProperty() {
-
+export default function CardProperty({id, foto_imovel, descricao, id_empresa }) {
+    const [empresa, setEmpresa] = useState({});
     const router = useRouter();
 
+    useEffect(() => {
+        async function fetchEmpresa() {
+            try {
+                const response = await fetch(`${render}companies/${id_empresa}`);
+                const data = await response.json();
+                setEmpresa(data);
+            } catch (error) {
+                console.error('Error fetching company data:', error);
+            }
+        }
+
+        fetchEmpresa();
+    }, [id_empresa]);
+
     const handleSearchPress = () => {
-        router.push('/detailsProperty');
+        router.push({pathname: '/detailsProperty', params: {id}})
     };
 
     const handleComments = () => {
@@ -20,13 +34,13 @@ export default function CardProperty() {
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
                 <View style={styles.companyHeader}>
-                    <Image source={require('../../assets/images/imobly-azul.png')} style={styles.logo} />
-                    <Text style={styles.companyName}>Maré</Text>
+                    <Image source={empresa.foto ? { uri: empresa.foto } : require('../../assets/images/imobly-azul.png')} style={styles.logo} />
+                    <Text style={styles.companyName}>{empresa.nome ? empresa.nome : 'empresa'}</Text>
                 </View>
                 <Text style={styles.companyDescription}>
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    {descricao}
                 </Text>
-                <Image source={require('../../assets/images/imovel1.png')} style={styles.propertyImage} />
+                <Image source={foto_imovel ? { uri: foto_imovel } : require('../../assets/images/imovel1.png')} style={styles.propertyImage} />
 
                 <View style={styles.cardFooter}>
                     <TouchableOpacity style={styles.commentButton} onPress={handleComments}>

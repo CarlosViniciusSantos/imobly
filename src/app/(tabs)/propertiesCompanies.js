@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import NavbarPadrao from '../../components/NavbarPadrao';
-import CardCatalog from '../../components/CardCatalog';
+import CardPropCompanies from '../../components/CardPropCompanies';
 import render from '../../utils/render';
 
-export default function Catalog() {
+export default function PropertiesCompanies() {
     const [properties, setProperties] = useState([]);
+    const router = useRouter();
+    const { id } = useLocalSearchParams()
 
     useEffect(() => {
         async function fetchProperties() {
             try {
                 const response = await fetch(`${render}properties/list`);
                 const data = await response.json();
-                setProperties(data);
+                const filteredProperties = data.filter(property => property.id_empresa === +id);
+                setProperties(filteredProperties);
             } catch (error) {
                 console.error('Error fetching properties:', error);
             }
         }
 
         fetchProperties();
-    }, []);
+    }, [id]);
 
     return (
         <ScrollView style={styles.container}>
-            <NavbarPadrao texto='Catálogo'/>
+            <NavbarPadrao texto='Imóveis'/>
             {properties.map(property => (
-                <CardCatalog 
+                <CardPropCompanies 
                     key={property.id} 
                     id={property.id}
                     nome={property.nome}
