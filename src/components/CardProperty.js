@@ -1,40 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 
-export default function CardProperty({id, foto_imovel, descricao, id_empresa }) {
+export default function CardProperty({ id, foto_imovel, descricao, id_empresa }) {
     const [empresa, setEmpresa] = useState({});
     const router = useRouter();
 
-    useEffect(() => {
-        async function fetchEmpresa() {
-            try {
-                const response = await fetch(`${render}companies/${id_empresa}`);
-                const data = await response.json();
-                setEmpresa(data);
-            } catch (error) {
-                console.error('Error fetching company data:', error);
-            }
+    const fetchEmpresa = async () => {
+        try {
+            const response = await fetch(`${render}companies/${id_empresa}`);
+            const data = await response.json();
+            setEmpresa(data);
+        } catch (error) {
+            console.error('Error fetching company data:', error);
         }
+    };
 
-        fetchEmpresa();
-    }, [id_empresa]);
+    useFocusEffect(
+        useCallback(() => {
+            fetchEmpresa();
+        }, [id_empresa])
+    );
 
     const handleSearchPress = () => {
-        router.push({pathname: '/detailsProperty', params: {id}})
+        router.push({ pathname: '/detailsProperty', params: { id } });
     };
 
     const handleComments = () => {
-        router.push({pathname: '/comments', params: {id}})
+        router.push({ pathname: '/comments', params: { id } });
     };
 
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
                 <View style={styles.companyHeader}>
-                    <Image source={empresa.foto ? { uri: empresa.foto } : require('../../assets/images/imobly-azul.png')} style={styles.logo} />
+                    <Image source={empresa.foto_perfil ? { uri: empresa.foto_perfil } : require('../../assets/images/imobly-azul.png')} style={styles.logo} />
                     <Text style={styles.companyName}>{empresa.nome ? empresa.nome : 'empresa'}</Text>
                 </View>
                 <Text style={styles.companyDescription}>
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 50,
         height: 50,
+        borderRadius: 25,
     },
     companiesContainer: {
         paddingHorizontal: 10,

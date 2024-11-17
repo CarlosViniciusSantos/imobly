@@ -18,6 +18,7 @@ export default function AtualizarDadosUser() {
     const [cidadeState, setCidade] = useState(cidade || '');
     const [estadoState, setEstado] = useState(estado || '');
     const [telefoneState, setTelefone] = useState(telefone || '');
+    const [foto_perfilState, setFoto_perfil] = useState(foto_perfil || '');
     const [userId, setUserId] = useState(id || '');
     const [token, setToken] = useState(accessToken || '');
 
@@ -31,6 +32,7 @@ export default function AtualizarDadosUser() {
                 setCidade(storedUser.cidade);
                 setEstado(storedUser.estado);
                 setTelefone(storedUser.telefone);
+                setFoto_perfil(storedUser.foto_perfil);
                 setUserId(storedUser.id);
                 setToken(storedUser.accessToken);
             }
@@ -46,6 +48,7 @@ export default function AtualizarDadosUser() {
             cidade: cidadeState,
             estado: estadoState,
             telefone: telefoneState,
+            foto_perfil: foto_perfilState,
         };
         try {
             const response = await fetch(`${render}users/${userId}`, {
@@ -81,7 +84,7 @@ export default function AtualizarDadosUser() {
                 <View style={styles.image}>
                     <TouchableOpacity>
                         <Image
-                            source={require('../../assets/images/nophoto.jpg')}
+                            source={foto_perfil ? { uri: foto_perfil } : require('../../assets/images/nophoto.jpg')}
                             style={styles.perfilImage}
                         />
                         <Text>
@@ -141,6 +144,12 @@ export default function AtualizarDadosUser() {
                         value={telefoneState}
                         onChangeText={setTelefone}
                         keyboardType='numeric'
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="URL da foto de perfil"
+                        value={foto_perfilState}
+                        onChangeText={setFoto_perfil}
                     />
                 </View>
             </ScrollView>

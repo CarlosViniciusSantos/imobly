@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import Header from '../../components/Header';
 import CardProperty from '../../components/CardProperty';
 import render from '../../utils/render'
@@ -9,19 +9,21 @@ export default function Home() {
     const [properties, setProperties] = useState([]);
     const router = useRouter();
 
-    useEffect(() => {
-        async function fetchProperties() {
-            try {
-                const response = await fetch(`${render}properties/list`);
-                const data = await response.json();
-                setProperties(data);
-            } catch (error) {
-                console.error('Error fetching properties:', error);
-            }
+    const fetchProperties = async () => {
+        try {
+            const response = await fetch(`${render}properties/list`);
+            const data = await response.json();
+            setProperties(data);
+        } catch (error) {
+            console.error('Error fetching properties:', error);
         }
+    };
 
-        fetchProperties();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchProperties();
+        }, [])
+    );
 
     return (
         <ScrollView style={styles.container}>
@@ -33,6 +35,7 @@ export default function Home() {
                     foto_imovel={property.foto_imovel} 
                     descricao={property.descricao} 
                     id_empresa={property.id_empresa}
+                    foto_perfil={property.foto_perfil}
                 />
             ))}
         </ScrollView>
