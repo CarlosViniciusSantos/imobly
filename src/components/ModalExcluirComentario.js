@@ -1,55 +1,38 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
-import render from '../utils/render.js';
+import render from '../utils/render';
 
-const ExcluirModal = ({ visible, onClose }) => {
+const ModalExcluirComentario = ({ visible, onClose, commentId, onCommentDeleted }) => {
     const [loading, setLoading] = useState(false);
-    const { id, accessToken, logout } = useLoginStore();
+    const { accessToken } = useLoginStore();
     const router = useRouter();
 
-    const handleDeleteAccount = async () => {
+    const handleDeleteComment = async () => {
         setLoading(true);
         try {
-            const deleteResponse = await fetch(`${render}users/${id}`, {
+            const response = await fetch(`${render}comments/${commentId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`, 
+                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (deleteResponse.ok) {
-                const logoutResponse = await fetch(`${render}auth/logout`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ token: accessToken }),
-                });
-
-                if (logoutResponse.ok) {
-                    await AsyncStorage.clear();
-                    logout();
-                    Alert.alert('Sucesso', 'Sua conta foi excluída com sucesso.');
-                    onClose();
-                    router.replace('/login');
-                } else {
-                    const errorText = await logoutResponse.text();
-                    Alert.alert('Erro', `Falha ao fazer logout: ${errorText}`);
-                    console.log(errorText);
-                }
+            if (response.ok) {
+                Alert.alert('Sucesso', 'Comentário excluído com sucesso.');
+                onClose();
+                onCommentDeleted(commentId);
             } else {
-                const errorText = await deleteResponse.text();
-                Alert.alert('Erro', `Falha ao excluir conta: ${errorText}`);
-                console.log(errorText);
+                const data = await response.json();
+                Alert.alert('Erro ao excluir comentário', data.error || 'Erro desconhecido');
+                console.log(data.error);
             }
         } catch (error) {
-            console.error('Erro ao excluir conta:', error);
-            Alert.alert('Erro', 'Ocorreu um erro ao tentar excluir a conta.');
+            Alert.alert('Erro ao excluir comentário', 'Erro de rede ou servidor');
+            console.error('Erro ao excluir comentário:', error);
         } finally {
             setLoading(false);
         }
@@ -68,13 +51,13 @@ const ExcluirModal = ({ visible, onClose }) => {
                         <AntDesign name="close" size={24} color="black" onPress={onClose} />
                     </View>
                     <View style={styles.textview}>
-                        <Text style={styles.text2}>Deseja realmente excluir a conta?</Text>
+                        <Text style={styles.text2}>Deseja realmente excluir o comentário?</Text>
                     </View>
                     <View style={styles.textpor}>
-                        <Text style={styles.text3}>Depois que você apaga uma conta, não há como voltar atrás. Por favor, tenha certeza.</Text>
+                        <Text style={styles.text3}>Depois que você excluir o comentário, não há como voltar atrás. Por favor, tenha certeza.</Text>
                     </View>
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.botao2} onPress={handleDeleteAccount} disabled={loading}>
+                        <TouchableOpacity style={styles.botao2} onPress={handleDeleteComment} disabled={loading}>
                             <Text style={styles.text}>{loading ? 'Excluindo...' : 'Excluir'}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.botao} onPress={onClose}>
@@ -102,7 +85,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     close: {
-        width: '100%'
+        width: '100%',
     },
     botao: {
         width: '40%',
@@ -125,7 +108,7 @@ const styles = StyleSheet.create({
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        color: 'white'
+        color: 'white',
     },
     row: {
         flexDirection: 'row',
@@ -135,17 +118,17 @@ const styles = StyleSheet.create({
     textview: {},
     text2: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     text3: {
-        fontSize: 17
+        fontSize: 17,
     },
     textpor: {
         padding: 25,
         paddingBottom: 30,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 });
 
-export default ExcluirModal;
+export default ModalExcluirComentario;

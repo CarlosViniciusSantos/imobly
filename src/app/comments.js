@@ -3,15 +3,18 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Alert } 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NavbarPadrao from '../components/NavbarPadrao';
 import CardBalloons from '../components/CardBalloons';
+import ModalExcluirComentario from '../components/ModalExcluirComentario';
 import { useLocalSearchParams } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
-import render from '../utils/render'
+import render from '../utils/render';
 
 export default function Comments() {
     const { id } = useLocalSearchParams(); // id do imóvel
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const { id: userId } = useLoginStore(); // id do usuário logado
+    const [modalVisible, setModalVisible] = useState(false);
+    const [commentToDelete, setCommentToDelete] = useState(null);
 
     useEffect(() => {
         async function fetchComments() {
@@ -64,19 +67,29 @@ export default function Comments() {
         }
     };
 
+    const handleDeleteComment = (commentId) => {
+        setCommentToDelete(commentId);
+        setModalVisible(true);
+    };
+
+    const handleCommentDeleted = (commentId) => {
+        setComments(comments.filter(comment => comment.id !== commentId));
+    };
     return (
         <View style={styles.container}>
             <NavbarPadrao texto="Comentários" />
             <View style={styles.container}>
-
                 <FlatList
                     data={comments}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <CardBalloons author_id={item.id_usuario} text={item.comentario} />
+                        <CardBalloons
+                            author_id={item.id_usuario}
+                            text={item.comentario}
+                            onDelete={() => handleDeleteComment(item.id)}
+                        />
                     )}
                 />
-
             </View>
 
             <View style={styles.inputContainer}>
@@ -91,6 +104,12 @@ export default function Comments() {
                 </TouchableOpacity>
             </View>
 
+            <ModalExcluirComentario
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                commentId={commentToDelete}
+                onCommentDeleted={handleCommentDeleted}
+            />
         </View>
     );
 }
