@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import { TextInputMask } from 'react-native-masked-text';
 import Button from '../components/ButtonDetails.js';
@@ -21,6 +21,7 @@ export default function AtualizarDadosUser() {
     const [foto_perfilState, setFoto_perfil] = useState(foto_perfil || '');
     const [userId, setUserId] = useState(id || '');
     const [token, setToken] = useState(accessToken || '');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const loadUserData = async () => {
@@ -50,6 +51,9 @@ export default function AtualizarDadosUser() {
             telefone: telefoneState,
             foto_perfil: foto_perfilState,
         };
+
+        setLoading(true);
+
         try {
             const response = await fetch(`${render}users/${userId}`, {
                 method: 'PUT',
@@ -74,6 +78,8 @@ export default function AtualizarDadosUser() {
         } catch (error) {
             Alert.alert('Erro ao atualizar', 'Erro de rede ou servidor');
             console.error('Erro ao atualizar:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -153,7 +159,11 @@ export default function AtualizarDadosUser() {
                     />
                 </View>
             </ScrollView>
-            <Button onPress={handleUpdate}>Confirmar</Button>
+            {loading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : (
+                <Button onPress={handleUpdate}>Confirmar</Button>
+            )}
         </View>
     );
 }

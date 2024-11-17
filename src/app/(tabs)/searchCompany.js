@@ -30,7 +30,7 @@ export default function SearchCompany() {
                     id={company.id}
                     nome={company.nome}
                     email={company.email}
-                    foto_empresa={company.foto_empresa}
+                    foto_perfil={company.foto_perfil}
                 />
             ))}
         </ScrollView>

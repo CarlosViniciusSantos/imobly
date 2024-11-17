@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function CardCompany({ id, nome, email, foto_empresa }) {
+export default function CardCompany({ id, nome, email, foto_perfil }) {
     const router = useRouter();
 
     const handlePress = () => {
@@ -12,7 +12,7 @@ export default function CardCompany({ id, nome, email, foto_empresa }) {
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
-                <Image source={foto_empresa ? { uri: foto_empresa } : require('../../assets/images/empresa1.png')} style={styles.logo} />
+                <Image source={foto_perfil ? { uri: foto_perfil } : require('../../assets/images/empresa1.png')} style={styles.logo} />
                 
                 <View style={styles.companyInfo}>
                     <Text style={styles.companyName}>{nome}</Text>
