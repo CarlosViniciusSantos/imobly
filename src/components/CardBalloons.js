@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useLocalSearchParams } from 'expo-router';
+import render from '../utils/render';
 
-export default function CardBalloons() {
+export default function CardBalloons({ author_id, text }) {
+    const [authorName, setAuthorName] = useState('');
+
+    useEffect(() => {
+        async function fetchAuthor() {
+            try {
+                const response = await fetch(`${render}users/${author_id}`);
+                const data = await response.json();
+                setAuthorName(data.nome);
+            } catch (error) {
+                console.error('Error fetching author:', error);
+            }
+        }
+
+        fetchAuthor();
+    }, [author_id]);
     return (
         <View style={styles.commentCard}>
             <View style={styles.commentHeader}>
                 <View style={styles.row}>
                     <Ionicons name="person-circle" size={40} color="gray" />
-                    <Text style={styles.commentAuthor}>User</Text>
+                    <Text style={styles.commentAuthor}>{authorName}</Text>
                 </View>
                 <View style={styles.row2}>
                     <TouchableOpacity>
@@ -19,7 +36,7 @@ export default function CardBalloons() {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={styles.commentText}>texto</Text>
+            <Text style={styles.commentText}>{text}</Text>
         </View>
     );
 }

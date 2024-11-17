@@ -27,7 +27,7 @@ export default function CardProperty({id, foto_imovel, descricao, id_empresa }) 
     };
 
     const handleComments = () => {
-        router.push('/comments');
+        router.push({pathname: '/comments', params: {id}})
     };
 
     return (
