@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useLocalSearchParams } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import render from '../utils/render';
 
 export default function CardBalloons({ author_id, text, onEdit, onDelete }) {
     const { id: userId } = useLoginStore();
-
     const [authorName, setAuthorName] = useState('');
 
     useEffect(() => {
@@ -32,7 +30,7 @@ export default function CardBalloons({ author_id, text, onEdit, onDelete }) {
                 </View>
                 {userId === author_id && (
                     <View style={styles.row2}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={onEdit}>
                             <Ionicons name="pencil" size={30} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={onDelete}>

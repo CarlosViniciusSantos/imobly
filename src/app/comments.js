@@ -12,7 +12,8 @@ export default function Comments() {
     const { id } = useLocalSearchParams(); // id do imóvel
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
-    const { id: userId } = useLoginStore(); // id do usuário logado
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const { id: userId, accessToken } = useLoginStore(); // id do usuário logado
     const [modalVisible, setModalVisible] = useState(false);
     const [commentToDelete, setCommentToDelete] = useState(null);
 
@@ -67,6 +68,48 @@ export default function Comments() {
         }
     };
 
+    const handleEditComment = (commentId, commentText) => {
+        setEditingCommentId(commentId);
+        setNewComment(commentText);
+    };
+
+    const handleUpdateComment = async () => {
+        if (!newComment.trim()) {
+            Alert.alert('Erro', 'O comentário não pode estar vazio.');
+            return;
+        }
+
+        const commentData = {
+            comentario: newComment,
+        };
+
+        try {
+            const response = await fetch(`${render}comments/${editingCommentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(commentData),
+            });
+
+            if (response.ok) {
+                const updatedComment = await response.json();
+                setComments(comments.map(comment => comment.id === editingCommentId ? updatedComment : comment));
+                setNewComment('');
+                setEditingCommentId(null);
+            } else {
+                const data = await response.json();
+                Alert.alert('Erro ao atualizar comentário', data.error || 'Erro desconhecido');
+                console.log(data.error);
+            }
+        } catch (error) {
+            Alert.alert('Erro ao atualizar comentário', 'Erro de rede ou servidor');
+            console.error('Erro ao atualizar comentário:', error);
+        }
+    };
+
+
     const handleDeleteComment = (commentId) => {
         setCommentToDelete(commentId);
         setModalVisible(true);
@@ -86,6 +129,7 @@ export default function Comments() {
                         <CardBalloons
                             author_id={item.id_usuario}
                             text={item.comentario}
+                            onEdit={() => handleEditComment(item.id, item.comentario)}
                             onDelete={() => handleDeleteComment(item.id)}
                         />
                     )}
@@ -99,7 +143,10 @@ export default function Comments() {
                     value={newComment}
                     onChangeText={setNewComment}
                 />
-                <TouchableOpacity style={styles.button} onPress={handlePostComment}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={editingCommentId ? handleUpdateComment : handlePostComment}
+                >
                     <Ionicons name="send" size={24} color="white" />
                 </TouchableOpacity>
             </View>
