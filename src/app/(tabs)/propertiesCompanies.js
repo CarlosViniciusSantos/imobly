@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import NavbarPadrao from '../../components/NavbarPadrao';
 import CardPropCompanies from '../../components/CardPropCompanies';
@@ -28,7 +28,8 @@ export default function PropertiesCompanies() {
     return (
         <ScrollView style={styles.container}>
             <NavbarPadrao texto='Imóveis'/>
-            {properties.map(property => (
+            {properties.length > 0 ?
+            properties.map(property => (
                 <CardPropCompanies 
                     key={property.id} 
                     id={property.id}
@@ -36,7 +37,7 @@ export default function PropertiesCompanies() {
                     descricao={property.descricao}
                     foto_imovel={property.foto_imovel}
                 />
-            ))}
+            )): <Text>Essa empresa ainda não postou um imóvel</Text> }
         </ScrollView>
     );
 }

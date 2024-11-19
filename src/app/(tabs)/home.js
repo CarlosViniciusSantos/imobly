@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import Header from '../../components/Header';
 import CardProperty from '../../components/CardProperty';
-import render from '../../utils/render'
+import render from '../../utils/render.js'
 
 export default function Home() {
     const [properties, setProperties] = useState([]);
@@ -24,11 +24,10 @@ export default function Home() {
             fetchProperties();
         }, [])
     );
-
     return (
         <ScrollView style={styles.container}>
             <Header />
-            {properties.map(property => (
+            {properties.length > 0? properties.map(property => (
                 <CardProperty 
                     key={property.id} 
                     id={property.id}
@@ -37,7 +36,7 @@ export default function Home() {
                     id_empresa={property.id_empresa}
                     foto_perfil={property.foto_perfil}
                 />
-            ))}
+            )): <Text>não há imoveis cadastrados...</Text>}
         </ScrollView>
     );
 }

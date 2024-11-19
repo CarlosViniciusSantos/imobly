@@ -33,7 +33,7 @@ export default function AtualizarDadosUser() {
                 setCidade(storedUser.cidade);
                 setEstado(storedUser.estado);
                 setTelefone(storedUser.telefone);
-                setFoto_perfil(storedUser.foto_perfil);
+                setFoto_perfil(storedUser.foto_perfil? storedUser.foto_perfil: '');
                 setUserId(storedUser.id);
                 setToken(storedUser.accessToken);
             }

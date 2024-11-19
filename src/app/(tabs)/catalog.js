@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
 import NavbarPadrao from '../../components/NavbarPadrao';
 import CardCatalog from '../../components/CardCatalog';
 import render from '../../utils/render';
@@ -24,7 +24,7 @@ export default function Catalog() {
     return (
         <ScrollView style={styles.container}>
             <NavbarPadrao texto='Catálogo'/>
-            {properties.map(property => (
+            {properties.length > 0 ?properties.map(property => (
                 <CardCatalog 
                     key={property.id} 
                     id={property.id}
@@ -32,7 +32,7 @@ export default function Catalog() {
                     descricao={property.descricao}
                     foto_imovel={property.foto_imovel}
                 />
-            ))}
+            )): <Text>não há imoveis cadastrados...</Text> }
         </ScrollView>
     );
 }
@@ -40,6 +40,6 @@ export default function Catalog() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ECECEC',
+        backgroundColor: '#ECECEC'
     }
 });
