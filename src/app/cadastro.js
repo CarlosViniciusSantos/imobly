@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
 import Button from '../components/Button';
 import { storeObjectData } from '../utils/asyncStorage';
-import render from '../utils/render';
+import render from '../utils/render.js';
 
 export default function Cadastro() {
     const [name, setName] = useState('');

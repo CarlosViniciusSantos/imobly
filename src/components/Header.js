@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import React  from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 
@@ -24,21 +24,6 @@ export default function Header() {
                     />
                 </TouchableOpacity>
             </View>
-
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
-                <TouchableOpacity style={styles.categoryButton}>
-                    <Text style={styles.categoryText}>Caraguatatuba</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryButton}>
-                    <Text style={styles.categoryText}>Bastos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryButton}>
-                    <Text style={styles.categoryText}>São Sebastião</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryButton}>
-                    <Text style={styles.categoryText}>Maré</Text>
-                </TouchableOpacity>
-            </ScrollView>
         </ScrollView>
     );
 }

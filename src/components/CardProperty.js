@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter, useFocusEffect } from 'expo-router';
+import render from '../utils/render.js';
 
 export default function CardProperty({ id, foto_imovel, descricao, id_empresa }) {
     const [empresa, setEmpresa] = useState({});

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLoginStore } from '../stores/useLoginStore';
-import render from '../utils/render';
+import render from '../utils/render.js';
 
 export default function CardBalloons({ author_id, text, onEdit, onDelete }) {
     const { id: userId } = useLoginStore();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import render from '../utils/render';
+import render from '../utils/render.js';
 import { useLoginStore } from '../stores/useLoginStore';
 import { useRouter } from 'expo-router';
 

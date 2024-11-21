@@ -12,7 +12,7 @@ export default function CardCompany({ id, nome, email, foto_perfil }) {
     return (
         <View style={styles.companiesContainer}>
             <View style={styles.companyCard}>
-                <Image source={foto_perfil ? { uri: foto_perfil } : require('../../assets/images/empresa1.png')} style={styles.logo} />
+                <Image source={foto_perfil ? { uri: foto_perfil } : require('../../assets/images/nophoto.jpg')} style={styles.logo} />
                 
                 <View style={styles.companyInfo}>
                     <Text style={styles.companyName}>{nome}</Text>

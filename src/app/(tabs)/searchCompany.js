@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, Text } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import Header from '../../components/Header';
 import CardCompany from '../../components/CardCompany';
-import render from '../../utils/render';
+import render from '../../utils/render.js';
 
 export default function SearchCompany() {
     const [companies, setCompanies] = useState([]);

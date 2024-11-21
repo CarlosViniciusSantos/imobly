@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-na
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
-import render from '../utils/render';
+import render from '../utils/render.js';
 
 const ModalExcluirComentario = ({ visible, onClose, commentId, onCommentDeleted }) => {
     const [loading, setLoading] = useState(false);

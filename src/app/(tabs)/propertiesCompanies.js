@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, Text } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import NavbarPadrao from '../../components/NavbarPadrao';
 import CardPropCompanies from '../../components/CardPropCompanies';
-import render from '../../utils/render';
+import render from '../../utils/render.js';
 
 export default function PropertiesCompanies() {
     const [properties, setProperties] = useState([]);

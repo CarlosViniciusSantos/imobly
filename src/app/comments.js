@@ -6,7 +6,7 @@ import CardBalloons from '../components/CardBalloons';
 import ModalExcluirComentario from '../components/ModalExcluirComentario';
 import { useLocalSearchParams } from 'expo-router';
 import { useLoginStore } from '../stores/useLoginStore';
-import render from '../utils/render';
+import render from '../utils/render.js';
 
 export default function Comments() {
     const { id } = useLocalSearchParams(); // id do imóvel

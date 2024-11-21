@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import NavbarPadrao from '../components/NavbarPadrao';
 import ButtonDetails from '../components/ButtonDetails';
-import render from '../utils/render';
+import render from '../utils/render.js';
 
 export default function DetailsProperty() {
     const [property, setProperty] = useState(null);
