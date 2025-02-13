@@ -37,7 +37,7 @@ export default function DetailsProperty() {
             <NavbarPadrao texto="Detalhes"/>
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <Image
-                    source={property.foto_imovel ? { uri: property.foto_imovel } : require('../../assets/images/imovel1.png')}
+                    source={property.foto ? { uri: property.foto } : require('../../assets/images/imovel1.png')}
                     style={styles.image}
                 />
                 <View style={styles.content}>

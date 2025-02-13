@@ -24,7 +24,6 @@ export default function PropertiesCompanies() {
 
         fetchProperties();
     }, [id]);
-
     return (
         <ScrollView style={styles.container}>
             <NavbarPadrao texto='Imóveis'/>
@@ -35,7 +34,7 @@ export default function PropertiesCompanies() {
                     id={property.id}
                     nome={property.nome}
                     descricao={property.descricao}
-                    foto_imovel={property.foto_imovel}
+                    foto_imovel={property.foto}
                 />
             )): <Text>Essa empresa ainda não postou um imóvel</Text> }
         </ScrollView>

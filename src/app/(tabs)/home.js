@@ -31,7 +31,7 @@ export default function Home() {
                 <CardProperty 
                     key={property.id} 
                     id={property.id}
-                    foto_imovel={property.foto_imovel} 
+                    foto_imovel={property.foto} 
                     descricao={property.descricao} 
                     id_empresa={property.id_empresa}
                     foto_perfil={property.foto_perfil}

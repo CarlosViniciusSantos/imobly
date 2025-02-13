@@ -33,7 +33,7 @@ export default function Catalog() {
                     id={property.id}
                     nome={property.nome}
                     descricao={property.descricao}
-                    foto_imovel={property.foto_imovel}
+                    foto_imovel={property.foto}
                 />
             )) : <Text>não há imoveis cadastrados...</Text>}
         </ScrollView>
